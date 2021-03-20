@@ -3,32 +3,34 @@ import "./styles.css";
 
 export default function App() {
   const [imgSrc, changeImgSrc] = useState("");
-  const [imgTv, changeImgTv] = useState("");
 
   useEffect(() => {
+    getUrls();
+
     const interval = setInterval(() => {
       fetch("https://dog.ceo/api/breeds/image/random")
         .then((response) => response.json())
         .then((data) => {
           changeImgSrc(data.message);
-          console.log(data);
         });
 
       fetch("https://v2.jokeapi.dev/joke/Any")
-        .then((response) => response.json())
+        .then((response) => console.log(response))
         .then((data) => console.log(data));
     }, 9999);
 
     return () => clearInterval(interval);
   }, []);
 
-  getUrls = () => {
-    fetch("FeedUrls.txt").then((response) => response);
+  const getUrls = () => {
+    fetch("./FeedUrls.txt")
+      .then((response) => response.text())
+      .then((items) => console.log(items));
   };
 
   return (
     <div className="App">
-      <div class="dog-random-img-container">
+      <div className="dog-random-img-container">
         <img src={imgSrc} alt="" />
       </div>
     </div>
